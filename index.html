@@ -1,13 +1,302 @@
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>aegisvision</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ChromaAssist</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="min-h-screen bg-slate-950 text-white">
+
+    <main class="max-w-6xl mx-auto px-6 py-10">
+
+        <!-- Header -->
+        <header class="flex items-center justify-between mb-12">
+
+            <div>
+                <h1 class="text-3xl font-bold">
+                    🌈 ChromaAssist
+                </h1>
+
+                <p class="text-slate-400 mt-1">
+                    Make colors easier to distinguish.
+                </p>
+            </div>
+
+            <div class="hidden sm:flex items-center gap-2
+                        bg-emerald-500/10 border border-emerald-500/20
+                        text-emerald-400 px-4 py-2 rounded-full text-sm">
+                🔒 Processed locally
+            </div>
+
+        </header>
+
+
+        <!-- Upload Section -->
+        <section id="uploadSection"
+            class="bg-slate-900 border border-slate-800
+                   rounded-3xl p-12 text-center">
+
+            <div class="text-6xl mb-6">
+                🖼️
+            </div>
+
+            <h2 class="text-3xl font-bold">
+                Upload your image
+            </h2>
+
+            <p class="text-slate-400 mt-3 mb-8">
+                Transform colors for better accessibility
+            </p>
+
+            <label
+                for="imageInput"
+                class="inline-block cursor-pointer
+                       bg-violet-600 hover:bg-violet-500
+                       px-6 py-3 rounded-xl
+                       font-semibold transition">
+                Choose Image
+            </label>
+
+            <input
+                type="file"
+                id="imageInput"
+                accept="image/png, image/jpeg"
+                class="hidden"
+            >
+
+            <p class="text-sm text-slate-500 mt-4">
+                PNG, JPG or JPEG
+            </p>
+
+        </section>
+
+
+        <!-- Editor Section -->
+        <section id="editorSection" class="hidden mt-10">
+
+            <!-- Profile Selection -->
+            <div class="bg-slate-900 border border-slate-800
+                        rounded-3xl p-8">
+
+                <h2 class="text-xl font-bold mb-6">
+                    Color Vision Profile
+                </h2>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+
+                    <button
+                        class="profile-btn border border-slate-700
+                               rounded-2xl p-5 text-left
+                               hover:border-violet-500 transition"
+                        data-profile="protanopia">
+
+                        <div class="text-2xl mb-2">🔴</div>
+
+                        <h3 class="font-semibold">
+                            Protanopia
+                        </h3>
+
+                        <p class="text-sm text-slate-400 mt-1">
+                            Red color sensitivity
+                        </p>
+
+                    </button>
+
+
+                    <button
+                        class="profile-btn border border-slate-700
+                               rounded-2xl p-5 text-left
+                               hover:border-violet-500 transition"
+                        data-profile="deuteranopia">
+
+                        <div class="text-2xl mb-2">🟢</div>
+
+                        <h3 class="font-semibold">
+                            Deuteranopia
+                        </h3>
+
+                        <p class="text-sm text-slate-400 mt-1">
+                            Green color sensitivity
+                        </p>
+
+                    </button>
+
+
+                    <button
+                        class="profile-btn border border-slate-700
+                               rounded-2xl p-5 text-left
+                               hover:border-violet-500 transition"
+                        data-profile="tritanopia">
+
+                        <div class="text-2xl mb-2">🔵</div>
+
+                        <h3 class="font-semibold">
+                            Tritanopia
+                        </h3>
+
+                        <p class="text-sm text-slate-400 mt-1">
+                            Blue color sensitivity
+                        </p>
+
+                    </button>
+
+                </div>
+
+
+                <!-- Strength -->
+                <div class="mt-8">
+
+                    <div class="flex justify-between mb-3">
+                        <label class="font-semibold">
+                            Transformation Strength
+                        </label>
+
+                        <span id="strengthValue"
+                              class="text-violet-400">
+                            50%
+                        </span>
+                    </div>
+
+                    <input
+                        id="strengthSlider"
+                        type="range"
+                        min="0"
+                        max="100"
+                        value="50"
+                        class="w-full accent-violet-500"
+                    >
+
+                    <div class="flex justify-between
+                                text-xs text-slate-500 mt-2">
+                        <span>Original</span>
+                        <span>Strong</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+<!-- Three-Way Comparison -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-8">
+
+    <!-- Original -->
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5">
+
+        <div class="flex items-center justify-between mb-4">
+            <h3 class="font-semibold text-lg">Original</h3>
+
+            <span class="text-xs text-slate-500 uppercase tracking-wider">
+                Original
+            </span>
+        </div>
+
+        <div class="bg-slate-950 rounded-2xl min-h-[300px]
+                    flex items-center justify-center p-4 overflow-hidden">
+
+            <canvas
+                id="originalCanvas"
+                class="max-w-full max-h-[500px] object-contain rounded-xl">
+            </canvas>
+
+        </div>
+
+    </div>
+
+
+    <!-- CVD Simulation -->
+    <div class="bg-slate-900 border border-amber-500/30 rounded-3xl p-5">
+
+        <div class="flex items-center justify-between mb-4">
+            <h3 class="font-semibold text-lg">
+                CVD Simulation
+            </h3>
+
+            <span class="text-xs text-amber-400 uppercase tracking-wider">
+                Perceived
+            </span>
+        </div>
+
+        <p class="text-sm text-slate-400 mb-4">
+            Approximate view for the selected color vision profile.
+        </p>
+
+        <div class="bg-slate-950 rounded-2xl min-h-[300px]
+                    flex items-center justify-center p-4 overflow-hidden">
+
+            <canvas
+                id="simulationCanvas"
+                class="max-w-full max-h-[500px] object-contain rounded-xl">
+            </canvas>
+
+        </div>
+
+    </div>
+
+
+    <!-- ChromaAssist -->
+    <div class="bg-slate-900 border border-violet-500/40 rounded-3xl p-5">
+
+        <div class="flex items-center justify-between mb-4">
+            <h3 class="font-semibold text-lg">
+                ChromaAssist
+            </h3>
+
+            <span class="text-xs text-violet-400 uppercase tracking-wider">
+                Enhanced
+            </span>
+        </div>
+
+        <p class="text-sm text-slate-400 mb-4">
+            Enhanced to improve color distinction.
+        </p>
+
+        <div class="bg-slate-950 rounded-2xl min-h-[300px]
+                    flex items-center justify-center p-4 overflow-hidden">
+
+            <canvas
+                id="resultCanvas"
+                class="max-w-full max-h-[500px] object-contain rounded-xl">
+            </canvas>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+            <!-- Buttons -->
+            <div class="flex flex-wrap justify-center gap-4 mt-8">
+
+                <button
+                    id="downloadBtn"
+                    class="bg-violet-600 hover:bg-violet-500
+                           px-6 py-3 rounded-xl
+                           font-semibold transition">
+                    ⬇️ Download Result
+                </button>
+
+                <button
+                    id="resetBtn"
+                    class="bg-slate-800 hover:bg-slate-700
+                           px-6 py-3 rounded-xl
+                           font-semibold transition">
+                    ↻ Reset
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+<script type="module" src="/src/script.js"></script>
+</body>
+
 </html>
