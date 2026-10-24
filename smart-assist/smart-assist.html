@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ChromaAssist | Smart Assist</title>
+  <link rel="stylesheet" href="smart-assist.css" />
+
+  <!-- TensorFlow.js and COCO-SSD object detection -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.3/dist/coco-ssd.min.js"></script>
+  <script src="smart-assist.js" defer></script>
+</head>
+
+<body>
+  <header class="topbar">
+    <a class="brand" href="../index.html">Chroma<span>Assist</span></a>
+    <a class="back-link" href="../index.html">← Back</a>
+  </header>
+
+  <main class="page">
+    <section class="intro">
+      <p class="eyebrow">VIDEO ACCESSIBILITY TOOL</p>
+      <h1>Smart Assist</h1>
+      <p>
+        Explore video with object labels, visual outlines and a color-filter
+        preview designed for people with color-vision differences.
+      </p>
+    </section>
+
+    <section class="settings panel">
+      <div class="field">
+        <label for="assistMode">Assistance mode</label>
+        <select id="assistMode">
+          <option value="general">General Smart Assist</option>
+          <option value="vegetable">Vegetable Assist</option>
+          <option value="traffic">Traffic &amp; Objects</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="visionProfile">Color-vision profile</label>
+        <select id="visionProfile">
+          <option value="normal">Standard preview</option>
+          <option value="protanopia">Protanopia</option>
+          <option value="deuteranopia">Deuteranopia</option>
+          <option value="tritanopia">Tritanopia</option>
+        </select>
+      </div>
+
+      <label class="toggle-field" for="showBoxes">
+        <input type="checkbox" id="showBoxes" checked />
+       
+      </label>
+    </section>
+
+    <section class="workspace">
+      <div class="video-panel panel">
+        <div class="section-heading">
+          <div>
+            <h2>Your video</h2>
+            <p>Upload a short video to begin.</p>
+          </div>
+          <span id="modelStatus" class="status" role="status">
+            Preparing detector…
+          </span>
+        </div>
+
+        <label class="upload-area" for="videoUpload">
+          <span class="upload-icon">↑</span>
+          <strong>Choose a video</strong>
+          <span>MP4, WebM or another format supported by your browser</span>
+          <input
+            type="file"
+            id="videoUpload"
+            accept="video/*"
+          />
+        </label>
+
+        <p id="fileName" class="file-name">No video selected</p>
+
+        <div id="videoStage" class="video-stage" hidden>
+          <video id="sourceVideo" controls playsinline preload="metadata"></video>
+          <canvas id="overlayCanvas" aria-label="Detected objects overlay"></canvas>
+        </div>
+
+        <div class="video-actions">
+          <button id="detectButton" class="button primary">
+            Start object detection
+          </button>
+          <button id="stopButton" class="button secondary" disabled>
+            Stop detection
+          </button>
+          <button id="downloadVideoButton" class="button secondary" disabled>
+    Download Improved Video
+  </button>
+        </div>
+
+
+        <p id="message" class="message" role="status" aria-live="polite">
+          Select a video. The object detector will load when available.
+        </p>
+      </div>
+
+      <aside class="results-panel panel">
+        <h2>What Smart Assist sees</h2>
+        <p class="subtext">
+          Detected objects appear here while the video plays.
+        </p>
+
+        <div class="result-summary">
+          <span>Visible detections</span>
+          <strong id="detectionCount">0</strong>
+        </div>
+
+        <ul id="detectionList" class="detection-list">
+          <li class="empty-result">No objects detected yet.</li>
+        </ul>
+
+        <div class="notice">
+          <strong>Prototype limitations</strong>
+          <p>
+            This general-purpose model identifies selected everyday objects.
+            It does not reliably judge vegetable freshness, food safety,
+            traffic-light state, or whether a road is safe to cross. Always
+            confirm important decisions independently.
+          </p>
+        </div>
+
+        <div class="notice subtle-notice">
+          <strong>About the color preview</strong>
+          <p>
+            The profile filters are illustrative visual effects, not clinically
+            validated color-vision correction or a simulation of exactly what
+            another person sees.
+          </p>
+        </div>
+      </aside>
+    </section>
+
+    <footer class="footer">
+      ChromaAssist Smart Assist · Browser-based prototype
+    </footer>
+  </main>
+</body>
+</html>

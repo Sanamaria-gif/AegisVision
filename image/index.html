@@ -1,0 +1,271 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ColourVision | Image Studio</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            lavender: "#A78BFA",
+            purple: "#8064E9",
+            ink: "#29233F"
+          },
+          fontFamily: {
+            display: ["Space Grotesk", "sans-serif"],
+            body: ["DM Sans", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+
+  <link rel="stylesheet" href="./style.css">
+</head>
+
+<body class="min-h-screen font-body text-ink">
+
+  <!-- Decorative background -->
+  <div class="ambient-background" aria-hidden="true">
+    <div class="ambient-orb orb-a"></div>
+    <div class="ambient-orb orb-b"></div>
+    <div class="ambient-orb orb-c"></div>
+    <div class="ambient-grid"></div>
+  </div>
+
+  <div class="relative z-10">
+
+    <!-- Navigation -->
+    <header class="sticky top-0 z-30 border-b border-purple/10 bg-white/75 backdrop-blur-xl">
+      <nav class="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 md:px-10">
+
+        <a href="../index.html" class="flex items-center gap-3">
+          <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-purple to-lavender text-white shadow-lg shadow-purple/20">
+            <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+          </div>
+          <div>
+            <span class="font-display text-xl font-bold">ColourVision</span>
+            <p class="text-[10px] font-semibold uppercase tracking-[.2em] text-purple">Image Studio</p>
+          </div>
+        </a>
+
+        <a href="../index.html" class="rounded-full border border-purple/20 bg-white px-4 py-2.5 text-sm font-semibold text-purple transition hover:-translate-y-0.5 hover:bg-purple hover:text-white">
+          ← Home
+        </a>
+      </nav>
+    </header>
+
+    <main class="mx-auto max-w-7xl px-5 py-10 md:px-10 md:py-14">
+
+      <!-- Page heading -->
+      <div class="mb-10 text-center">
+        <span class="inline-flex items-center gap-2 rounded-full border border-purple/15 bg-white/80 px-4 py-2 text-xs font-bold tracking-widest text-purple shadow-sm">
+          <span class="h-2 w-2 animate-pulse rounded-full bg-purple"></span>
+          COLOUR ACCESSIBILITY
+        </span>
+
+        <h1 class="mt-5 font-display text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
+          See your images in a
+          <span class="gradient-text">new light.</span>
+        </h1>
+
+        <p class="mx-auto mt-4 max-w-2xl text-sm leading-7 text-gray-600 sm:text-base">
+          Explore colour transformations and compare the original image,
+          a simulated colour-vision view, and the enhanced result.
+        </p>
+      </div>
+
+      <!-- Upload -->
+      <section id="uploadSection" class="upload-panel mx-auto max-w-4xl rounded-[2rem] p-6 sm:p-10 md:p-14">
+
+        <div class="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-3xl bg-gradient-to-br from-purple/10 to-pink-100 text-4xl shadow-inner">
+          🖼️
+        </div>
+
+        <h2 class="text-center font-display text-2xl font-bold sm:text-3xl">
+          Bring your image to life
+        </h2>
+
+        <p class="mx-auto mt-3 max-w-lg text-center text-sm leading-7 text-gray-500 sm:text-base">
+          Upload a photo, chart, diagram, or illustration to explore its colours.
+        </p>
+
+        <label for="imageInput" class="upload-dropzone group mx-auto mt-8 flex max-w-2xl cursor-pointer flex-col items-center justify-center rounded-3xl px-5 py-10 text-center sm:py-14">
+          <div class="upload-icon mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-white text-3xl shadow-md">
+            ↑
+          </div>
+
+          <span class="font-display text-lg font-bold">Choose an image</span>
+          <span class="mt-2 text-sm text-gray-500">PNG, JPG or JPEG</span>
+          <span class="mt-6 rounded-full bg-gradient-to-r from-purple to-lavender px-7 py-3.5 text-sm font-bold text-white shadow-lg shadow-purple/20 transition group-hover:-translate-y-1">
+            Browse files
+          </span>
+
+          <input type="file" id="imageInput" accept="image/png,image/jpeg" class="hidden">
+        </label>
+
+        <div class="mt-6 flex flex-wrap items-center justify-center gap-3 text-xs text-gray-500">
+          <span class="rounded-full bg-purple/5 px-3 py-2">🔒 Browser-based processing</span>
+          <span class="rounded-full bg-purple/5 px-3 py-2">✨ Three-way comparison</span>
+        </div>
+
+        <p class="mt-4 text-center text-xs leading-5 text-gray-400">
+          Your image is processed in your browser. Avoid uploading sensitive images on shared devices.
+        </p>
+      </section>
+
+      <!-- Editor: shown by existing JavaScript after upload -->
+      <section id="editorSection" class="hidden mt-10">
+
+        <!-- Profile controls -->
+        <div class="glass-panel rounded-[2rem] p-6 sm:p-8">
+          <div class="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <span class="text-xs font-bold uppercase tracking-[.2em] text-purple">Step 01</span>
+              <h2 class="mt-2 font-display text-2xl font-bold">Choose a colour profile</h2>
+              <p class="mt-2 text-sm text-gray-500">Select a profile to update the comparison.</p>
+            </div>
+            <span class="text-sm text-gray-400">Select one profile</span>
+          </div>
+
+          <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
+
+            <button type="button" class="profile-btn profile-card" data-profile="protanopia" aria-pressed="false">
+              <span class="profile-symbol bg-rose-100">🔴</span>
+              <span class="mt-4 block font-bold">Protanopia</span>
+              <span class="mt-1 block text-sm font-normal text-gray-500">Red-vision simulation</span>
+            </button>
+
+            <button type="button" class="profile-btn profile-card" data-profile="deuteranopia" aria-pressed="true">
+              <span class="profile-symbol bg-emerald-100">🟢</span>
+              <span class="mt-4 block font-bold">Deuteranopia</span>
+              <span class="mt-1 block text-sm font-normal text-gray-500">Green-vision simulation</span>
+            </button>
+
+            <button type="button" class="profile-btn profile-card" data-profile="tritanopia" aria-pressed="false">
+              <span class="profile-symbol bg-sky-100">🔵</span>
+              <span class="mt-4 block font-bold">Tritanopia</span>
+              <span class="mt-1 block text-sm font-normal text-gray-500">Blue-vision simulation</span>
+            </button>
+
+          </div>
+
+          <!-- Strength -->
+          <div class="mt-9 rounded-2xl bg-[#F8F5FF] p-5 sm:p-6">
+            <div class="flex items-center justify-between gap-3">
+              <div>
+                <h3 class="font-bold">Transformation strength</h3>
+                <p class="mt-1 text-xs text-gray-500">Adjust the intensity of the enhanced result.</p>
+              </div>
+              <span id="strengthValue" class="rounded-xl bg-white px-3 py-2 font-bold text-purple shadow-sm">50%</span>
+            </div>
+
+            <input id="strengthSlider" type="range" min="0" max="100" value="50" class="mt-6 w-full">
+
+            <div class="mt-2 flex justify-between text-xs text-gray-400">
+              <span>Original</span>
+              <span>Strong</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Comparison heading -->
+        <div class="mb-5 mt-10 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-[.2em] text-purple">Step 02</span>
+            <h2 class="mt-2 font-display text-2xl font-bold sm:text-3xl">Compare your image</h2>
+          </div>
+          <p class="text-sm text-gray-500">Original → Simulation → Enhanced</p>
+        </div>
+
+        <!-- Comparison cards -->
+        <div class="grid grid-cols-1 gap-5 lg:grid-cols-3">
+
+          <article class="image-card rounded-3xl p-4 sm:p-5">
+            <div class="mb-4 flex items-center justify-between gap-2">
+              <div>
+                <span class="text-xs font-bold uppercase tracking-wider text-gray-400">01 / Source</span>
+                <h3 class="mt-1 font-display text-lg font-bold">Original image</h3>
+              </div>
+              <span class="rounded-full bg-gray-100 px-3 py-1.5 text-xs font-semibold text-gray-600">Original</span>
+            </div>
+            <div class="canvas-stage">
+              <canvas id="originalCanvas" class="comparison-canvas"></canvas>
+              <span class="canvas-empty">Your image will appear here</span>
+            </div>
+          </article>
+
+          <article class="image-card rounded-3xl p-4 sm:p-5">
+            <div class="mb-4 flex items-center justify-between gap-2">
+              <div>
+                <span class="text-xs font-bold uppercase tracking-wider text-amber-600">02 / Simulation</span>
+                <h3 class="mt-1 font-display text-lg font-bold">CVD simulation</h3>
+              </div>
+              <span class="rounded-full bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-700">Perceived</span>
+            </div>
+            <p class="mb-4 text-xs leading-5 text-gray-500">An approximate view for the selected profile.</p>
+            <div class="canvas-stage">
+              <canvas id="simulationCanvas" class="comparison-canvas"></canvas>
+              <span class="canvas-empty">Simulation preview</span>
+            </div>
+          </article>
+
+          <article class="image-card result-card rounded-3xl p-4 sm:p-5">
+            <div class="mb-4 flex items-center justify-between gap-2">
+              <div>
+                <span class="text-xs font-bold uppercase tracking-wider text-purple">03 / Result</span>
+                <h3 class="mt-1 font-display text-lg font-bold">ColourVision result</h3>
+              </div>
+              <span class="rounded-full bg-purple/10 px-3 py-1.5 text-xs font-semibold text-purple">Enhanced</span>
+            </div>
+            <p class="mb-4 text-xs leading-5 text-gray-500">Experimental transformation to explore colour distinction.</p>
+            <div class="canvas-stage">
+              <canvas id="resultCanvas" class="comparison-canvas"></canvas>
+              <span class="canvas-empty">Enhanced preview</span>
+            </div>
+          </article>
+
+        </div>
+
+        <!-- Actions -->
+        <div class="mt-8 flex flex-wrap justify-center gap-4">
+          <button id="downloadBtn" type="button" class="primary-action rounded-full px-7 py-4 font-bold text-white">
+            ↓ Download result
+          </button>
+          <button id="resetBtn" type="button" class="secondary-action rounded-full px-7 py-4 font-bold">
+            ↻ Choose another image
+          </button>
+        </div>
+
+        <p class="mx-auto mt-5 max-w-2xl text-center text-xs leading-6 text-gray-400">
+          Colour transformations are experimental and may not improve every image or every person's ability to distinguish colours.
+        </p>
+
+      </section>
+    </main>
+
+    <footer class="mt-10 border-t border-purple/10 bg-white/55 px-5 py-7">
+      <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 text-sm text-gray-500 sm:flex-row">
+        <a href="../index.html" class="font-display font-bold text-ink">ColourVision <span class="text-purple">✦</span></a>
+        <p>Designed with accessibility in mind.</p>
+        <a href="../index.html" class="font-semibold text-purple hover:underline">Back to home ↑</a>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Keep your existing JavaScript file path -->
+  <script type="module" src="/src/script.js"></script>
+</body>
+</html>

@@ -1,302 +1,448 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ChromaAssist | See Beyond Colour</title>
 
-    <title>ChromaAssist</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
-    <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            lavender: "#A78BFA",
+            purple: "#8064E9",
+            ink: "#29233F"
+          },
+          fontFamily: {
+            display: ["Space Grotesk", "sans-serif"],
+            body: ["DM Sans", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    * { box-sizing: border-box; scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: "DM Sans", sans-serif;
+      color: #29233F;
+      background: #FCFAFF;
+    }
+
+    /* Animated video background */
+    .video-background {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .video-background video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.22;
+    }
+
+    .video-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        115deg,
+        rgba(255,255,255,0.94),
+        rgba(245,240,255,0.70),
+        rgba(255,255,255,0.88)
+      );
+    }
+
+    .page-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Floating lavender light */
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(2px);
+      pointer-events: none;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .orb-one {
+      width: 250px;
+      height: 250px;
+      background: radial-gradient(circle, #D9CCFF 0%, #EDE6FF 50%, transparent 72%);
+      top: 5%;
+      right: 5%;
+    }
+
+    .orb-two {
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, #E7DFFF 0%, #F7F1FF 55%, transparent 72%);
+      bottom: 0;
+      left: -100px;
+      animation-delay: -3s;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate3d(0, 0, 0); }
+      50% { transform: translate3d(20px, -28px, 0); }
+    }
+
+    /* Hero text */
+    .hero-title {
+      animation: reveal 1s ease both;
+    }
+
+    .hero-description {
+      animation: reveal 1s ease .15s both;
+    }
+
+    .hero-actions {
+      animation: reveal 1s ease .3s both;
+    }
+
+    @keyframes reveal {
+      from { opacity: 0; transform: translateY(22px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Animated eye illustration */
+    .eye-glow {
+      animation: glow 4s ease-in-out infinite;
+      transform-origin: center;
+    }
+
+    @keyframes glow {
+      0%, 100% { filter: drop-shadow(0 0 12px #C4B5FD); }
+      50% { filter: drop-shadow(0 0 30px #A78BFA); }
+    }
+
+    .orbit {
+      transform-origin: 180px 180px;
+      animation: rotate 24s linear infinite;
+    }
+
+    @keyframes rotate {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Feature cards */
+    .feature-card {
+      background: rgba(255,255,255,0.78);
+      border: 1px solid rgba(167,139,250,0.22);
+      backdrop-filter: blur(18px);
+      transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-9px);
+      box-shadow: 0 22px 60px rgba(126, 87, 194, 0.15);
+      border-color: #B8A4FF;
+    }
+
+    .icon-box {
+      transition: transform .3s ease;
+    }
+
+    .feature-card:hover .icon-box {
+      transform: scale(1.08) rotate(-4deg);
+    }
+
+    .gradient-text {
+      background: linear-gradient(100deg, #8B6DE8, #BA91EF, #8064E9);
+      background-size: 200% auto;
+      color: transparent;
+      background-clip: text;
+      -webkit-background-clip: text;
+      animation: gradientMove 5s linear infinite;
+    }
+
+    @keyframes gradientMove {
+      to { background-position: 200% center; }
+    }
+
+    .primary-button {
+      background: linear-gradient(110deg, #9274ED, #B29AFB);
+      box-shadow: 0 8px 24px rgba(137, 105, 230, .25);
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+
+    .primary-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 13px 30px rgba(137, 105, 230, .35);
+    }
+
+    .soft-grid {
+      background-image: radial-gradient(#C7B7F3 0.8px, transparent 0.8px);
+      background-size: 24px 24px;
+      mask-image: linear-gradient(to bottom, transparent, black, transparent);
+      opacity: .20;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
 </head>
 
-<body class="min-h-screen bg-slate-950 text-white">
+<body>
 
-    <main class="max-w-6xl mx-auto px-6 py-10">
+  <!-- Real video background: add your MP4 to public/ -->
+  <div class="video-background">
+    <video autoplay muted loop playsinline poster="">
+      <source src="./public/colourvision-bg.mp4" type="video/mp4">
+    </video>
+    <div class="video-overlay"></div>
+  </div>
 
-        <!-- Header -->
-        <header class="flex items-center justify-between mb-12">
+  <div class="page-content">
 
-            <div>
-                <h1 class="text-3xl font-bold">
-                    🌈 ChromaAssist
-                </h1>
+    <!-- Navigation -->
+    <header class="relative z-20 px-6 md:px-12 py-5">
+      <nav class="max-w-7xl mx-auto flex items-center justify-between">
+        <a href="#" class="flex items-center gap-3">
+          <div class="w-11 h-11 rounded-2xl bg-purple text-white flex items-center justify-center shadow-lg shadow-purple/20">
+            <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+          </div>
+          <div>
+            <span class="font-display font-bold text-xl tracking-tight">ChromaAssist</span>
+            <p class="text-[10px] tracking-[.22em] uppercase text-purple font-semibold">A new way to see</p>
+          </div>
+        </a>
 
-                <p class="text-slate-400 mt-1">
-                    Make colors easier to distinguish.
-                </p>
+        <div class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600">
+          <a href="#home" class="hover:text-purple transition">Home</a>
+          <a href="#features" class="hover:text-purple transition">Features</a>
+          <a href="#about" class="hover:text-purple transition">About</a>
+        </div>
+
+        <a href="#features" class="primary-button text-white px-5 py-3 rounded-full text-sm font-semibold">
+          Get Started <span class="ml-1">↗</span>
+        </a>
+      </nav>
+    </header>
+
+    <!-- Hero -->
+    <main>
+      <section id="home" class="relative overflow-hidden">
+        <div class="orb orb-one"></div>
+        <div class="orb orb-two"></div>
+        <div class="soft-grid absolute inset-0"></div>
+
+        <div class="max-w-7xl mx-auto px-6 md:px-12 pt-12 md:pt-16 pb-16 md:pb-24 grid md:grid-cols-2 gap-12 items-center">
+
+          <!-- Hero text -->
+          <div class="relative z-10">
+            <div class="hero-title inline-flex items-center gap-2 rounded-full border border-purple/20 bg-white/70 px-4 py-2 text-xs font-semibold text-purple shadow-sm mb-7">
+              <span class="w-2 h-2 rounded-full bg-purple animate-pulse"></span>
+              ACCESSIBILITY, REIMAGINED
             </div>
 
-            <div class="hidden sm:flex items-center gap-2
-                        bg-emerald-500/10 border border-emerald-500/20
-                        text-emerald-400 px-4 py-2 rounded-full text-sm">
-                🔒 Processed locally
+            <h1 class="hero-title font-display text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.06] tracking-tight">
+              See the world<br>
+              in a <span class="gradient-text">new light.</span>
+            </h1>
+
+            <p class="hero-description mt-7 max-w-xl text-base md:text-lg leading-8 text-gray-600">
+              Colours tell a story. ColourVision helps make that story easier
+              to experience through images, videos, and documents —
+              designed with colour accessibility in mind.
+            </p>
+
+            <div class="hero-actions mt-9 flex flex-wrap gap-4">
+              <a href="#features" class="primary-button inline-flex items-center gap-3 rounded-full px-7 py-4 text-white font-semibold">
+                Explore Features
+                <span class="text-lg">→</span>
+              </a>
+              <a href="#about" class="inline-flex items-center gap-2 rounded-full border border-purple/25 bg-white/65 px-7 py-4 font-semibold text-gray-700 hover:border-purple transition">
+                Discover ColourVision
+              </a>
             </div>
 
-        </header>
+            <div class="mt-10 flex items-center gap-4 text-sm text-gray-500">
+              <div class="flex -space-x-2">
+                <div class="w-9 h-9 rounded-full border-2 border-white bg-purple-100 flex items-center justify-center">👁️</div>
+                <div class="w-9 h-9 rounded-full border-2 border-white bg-pink-100 flex items-center justify-center">🎨</div>
+                <div class="w-9 h-9 rounded-full border-2 border-white bg-indigo-100 flex items-center justify-center">✨</div>
+              </div>
+              <span>Thoughtful design. More accessible experiences.</span>
+            </div>
+          </div>
 
+          <!-- Animated eye illustration -->
+          <div class="relative flex items-center justify-center min-h-[320px] md:min-h-[470px]">
+            <div class="absolute w-72 h-72 md:w-96 md:h-96 rounded-full bg-purple/10 blur-3xl"></div>
 
-        <!-- Upload Section -->
-        <section id="uploadSection"
-            class="bg-slate-900 border border-slate-800
-                   rounded-3xl p-12 text-center">
+            <svg class="relative w-full max-w-[480px] eye-glow" viewBox="0 0 420 380" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Decorative glowing eye illustration">
+              <defs>
+                <linearGradient id="eyeGradient" x1="75" y1="100" x2="340" y2="285">
+                  <stop stop-color="#C4B5FD"/>
+                  <stop offset=".5" stop-color="#A78BFA"/>
+                  <stop offset="1" stop-color="#8064E9"/>
+                </linearGradient>
+                <radialGradient id="irisGradient">
+                  <stop stop-color="#F5F0FF"/>
+                  <stop offset=".55" stop-color="#A78BFA"/>
+                  <stop offset="1" stop-color="#8064E9"/>
+                </radialGradient>
+                <linearGradient id="glassGradient" x1="100" y1="100" x2="320" y2="280">
+                  <stop stop-color="white" stop-opacity=".9"/>
+                  <stop offset="1" stop-color="#E9DFFF" stop-opacity=".35"/>
+                </linearGradient>
+              </defs>
 
-            <div class="text-6xl mb-6">
-                🖼️
+              <!-- Outer rings -->
+              <circle cx="210" cy="190" r="150" stroke="#B8A4FF" stroke-opacity=".35" stroke-dasharray="3 10"/>
+              <circle cx="210" cy="190" r="128" stroke="#A78BFA" stroke-opacity=".35"/>
+              <circle cx="210" cy="190" r="110" fill="url(#glassGradient)" stroke="#FFFFFF" stroke-width="2"/>
+
+              <!-- Rotating orbit -->
+              <g class="orbit">
+                <circle cx="210" cy="40" r="6" fill="#8064E9"/>
+                <circle cx="340" cy="265" r="5" fill="#D8B4FE"/>
+                <circle cx="85" cy="260" r="4" fill="#A78BFA"/>
+              </g>
+
+              <!-- Eye -->
+              <path d="M82 190 Q210 72 338 190 Q210 308 82 190Z" fill="white" fill-opacity=".9" stroke="url(#eyeGradient)" stroke-width="3"/>
+              <ellipse cx="210" cy="190" rx="48" ry="58" fill="url(#irisGradient)"/>
+              <circle cx="210" cy="190" r="27" fill="#4C337E"/>
+              <circle cx="210" cy="190" r="17" fill="#29233F"/>
+              <circle cx="195" cy="171" r="12" fill="white" fill-opacity=".9"/>
+              <circle cx="224" cy="207" r="5" fill="white" fill-opacity=".7"/>
+
+              <!-- Floating colour dots -->
+              <circle cx="110" cy="115" r="9" fill="#D8B4FE"/>
+              <circle cx="312" cy="130" r="12" fill="#C4B5FD"/>
+              <circle cx="300" cy="278" r="8" fill="#E9D5FF"/>
+              <circle cx="118" cy="265" r="11" fill="#A78BFA"/>
+              <circle cx="210" cy="43" r="5" fill="#8064E9"/>
+            </svg>
+
+            <div class="absolute bottom-5 left-1 md:left-0 rounded-2xl border border-white/80 bg-white/75 backdrop-blur-xl px-4 py-3 shadow-lg animate-bounce" style="animation-duration:4s">
+              <p class="text-xs text-gray-500">Designed for</p>
+              <p class="font-semibold text-sm">A more accessible world ✨</p>
             </div>
 
-            <h2 class="text-3xl font-bold">
-                Upload your image
+            <div class="absolute top-8 right-0 rounded-2xl border border-white/80 bg-white/75 backdrop-blur-xl px-4 py-3 shadow-lg" style="animation:float 6s ease-in-out infinite">
+              <p class="text-xs text-gray-500">Your content</p>
+              <p class="font-semibold text-sm text-purple">Reimagined 👁</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Features -->
+      <section id="features" class="px-6 md:px-12 py-16 md:py-24 bg-white/45 border-y border-white/70">
+        <div class="max-w-7xl mx-auto">
+          <div class="text-center max-w-2xl mx-auto mb-12">
+            <span class="text-xs font-bold tracking-[.25em] uppercase text-purple">ONE PLATFORM, THREE EXPERIENCES</span>
+            <h2 class="font-display mt-4 text-3xl md:text-5xl font-bold tracking-tight">
+              Accessibility at your <span class="gradient-text">fingertips.</span>
             </h2>
-
-            <p class="text-slate-400 mt-3 mb-8">
-                Transform colors for better accessibility
+            <p class="mt-4 text-gray-600 leading-7">
+              Choose the kind of content you want to explore.
             </p>
+          </div>
 
-            <label
-                for="imageInput"
-                class="inline-block cursor-pointer
-                       bg-violet-600 hover:bg-violet-500
-                       px-6 py-3 rounded-xl
-                       font-semibold transition">
-                Choose Image
-            </label>
+          <div class="grid md:grid-cols-3 gap-6">
 
-            <input
-                type="file"
-                id="imageInput"
-                accept="image/png, image/jpeg"
-                class="hidden"
-            >
+            <!-- Image feature -->
+            <a href="./image/index.html" class="feature-card group rounded-3xl p-7 md:p-8">
+              <div class="icon-box w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-100 to-pink-100 flex items-center justify-center text-3xl">🖼️</div>
+              <div class="mt-7 flex items-center justify-between">
+                <h3 class="font-display text-xl font-bold">Image Vision</h3>
+                <span class="text-purple text-xl group-hover:translate-x-1 transition">↗</span>
+              </div>
+              <p class="mt-3 text-gray-600 leading-7 text-sm">
+                Upload an image and explore colour transformations designed to improve visual distinction.
+              </p>
+              <div class="mt-6 text-sm font-bold text-purple">Explore images →</div>
+            </a>
 
-            <p class="text-sm text-slate-500 mt-4">
-                PNG, JPG or JPEG
-            </p>
+            <!-- Video feature -->
+            <a href="./smart-assist/smart-assist.html" class="feature-card group rounded-3xl p-7 md:p-8">
+              <div class="icon-box w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-100 to-purple-100 flex items-center justify-center text-3xl">🎬</div>
+              <div class="mt-7 flex items-center justify-between">
+                <h3 class="font-display text-xl font-bold">Video Vision</h3>
+                <span class="text-purple text-xl group-hover:translate-x-1 transition">↗</span>
+              </div>
+              <p class="mt-3 text-gray-600 leading-7 text-sm">
+                Discover the video accessibility experience with colour-aware viewing tools.
+              </p>
+              <div class="mt-6 text-sm font-bold text-purple">Explore videos →</div>
+            </a>
 
-        </section>
+            <!-- PDF feature -->
+<a href="./pdf/index.html" class="feature-card group rounded-3xl p-7 md:p-8">              <div class="icon-box w-16 h-16 rounded-2xl bg-gradient-to-br from-violet-100 to-blue-100 flex items-center justify-center text-3xl">📄</div>
+              <div class="mt-7 flex items-center justify-between">
+                <h3 class="font-display text-xl font-bold">Document Vision</h3>
+                <span class="text-purple text-xl group-hover:translate-x-1 transition">↗</span>
+              </div>
+              <p class="mt-3 text-gray-600 leading-7 text-sm">
+                Open the PDF tool to work with longer documents and text-heavy content.
+              </p>
+              <div class="mt-6 text-sm font-bold text-purple">Explore PDFs →</div>
+            </a>
 
-
-        <!-- Editor Section -->
-        <section id="editorSection" class="hidden mt-10">
-
-            <!-- Profile Selection -->
-            <div class="bg-slate-900 border border-slate-800
-                        rounded-3xl p-8">
-
-                <h2 class="text-xl font-bold mb-6">
-                    Color Vision Profile
-                </h2>
-
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-
-                    <button
-                        class="profile-btn border border-slate-700
-                               rounded-2xl p-5 text-left
-                               hover:border-violet-500 transition"
-                        data-profile="protanopia">
-
-                        <div class="text-2xl mb-2">🔴</div>
-
-                        <h3 class="font-semibold">
-                            Protanopia
-                        </h3>
-
-                        <p class="text-sm text-slate-400 mt-1">
-                            Red color sensitivity
-                        </p>
-
-                    </button>
-
-
-                    <button
-                        class="profile-btn border border-slate-700
-                               rounded-2xl p-5 text-left
-                               hover:border-violet-500 transition"
-                        data-profile="deuteranopia">
-
-                        <div class="text-2xl mb-2">🟢</div>
-
-                        <h3 class="font-semibold">
-                            Deuteranopia
-                        </h3>
-
-                        <p class="text-sm text-slate-400 mt-1">
-                            Green color sensitivity
-                        </p>
-
-                    </button>
-
-
-                    <button
-                        class="profile-btn border border-slate-700
-                               rounded-2xl p-5 text-left
-                               hover:border-violet-500 transition"
-                        data-profile="tritanopia">
-
-                        <div class="text-2xl mb-2">🔵</div>
-
-                        <h3 class="font-semibold">
-                            Tritanopia
-                        </h3>
-
-                        <p class="text-sm text-slate-400 mt-1">
-                            Blue color sensitivity
-                        </p>
-
-                    </button>
-
-                </div>
-
-
-                <!-- Strength -->
-                <div class="mt-8">
-
-                    <div class="flex justify-between mb-3">
-                        <label class="font-semibold">
-                            Transformation Strength
-                        </label>
-
-                        <span id="strengthValue"
-                              class="text-violet-400">
-                            50%
-                        </span>
-                    </div>
-
-                    <input
-                        id="strengthSlider"
-                        type="range"
-                        min="0"
-                        max="100"
-                        value="50"
-                        class="w-full accent-violet-500"
-                    >
-
-                    <div class="flex justify-between
-                                text-xs text-slate-500 mt-2">
-                        <span>Original</span>
-                        <span>Strong</span>
-                    </div>
-
-                </div>
-
-            </div>
-
-<!-- Three-Way Comparison -->
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-8">
-
-    <!-- Original -->
-    <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5">
-
-        <div class="flex items-center justify-between mb-4">
-            <h3 class="font-semibold text-lg">Original</h3>
-
-            <span class="text-xs text-slate-500 uppercase tracking-wider">
-                Original
-            </span>
+          </div>
         </div>
+      </section>
 
-        <div class="bg-slate-950 rounded-2xl min-h-[300px]
-                    flex items-center justify-center p-4 overflow-hidden">
-
-            <canvas
-                id="originalCanvas"
-                class="max-w-full max-h-[500px] object-contain rounded-xl">
-            </canvas>
-
+      <!-- About -->
+      <section id="about" class="px-6 md:px-12 py-20">
+        <div class="max-w-5xl mx-auto text-center rounded-[2rem] border border-purple/15 bg-white/65 backdrop-blur-xl px-7 py-12 md:px-16 md:py-16 shadow-xl shadow-purple/5">
+          <div class="text-4xl mb-5">💜</div>
+          <h2 class="font-display text-3xl md:text-4xl font-bold">
+            Colour should never be a barrier.
+          </h2>
+          <p class="max-w-2xl mx-auto mt-5 leading-8 text-gray-600">
+            ColourVision aims to make digital content easier to perceive for people
+            with colour vision deficiencies. Our goal is a web where everyone can
+            explore visual information with greater clarity.
+          </p>
+          <!--<a href="#features" class="primary-button inline-flex mt-8 rounded-full px-7 py-4 text-white font-semibold">
+            Start Exploring →
+          </a>-->
         </div>
-
-    </div>
-
-
-    <!-- CVD Simulation -->
-    <div class="bg-slate-900 border border-amber-500/30 rounded-3xl p-5">
-
-        <div class="flex items-center justify-between mb-4">
-            <h3 class="font-semibold text-lg">
-                CVD Simulation
-            </h3>
-
-            <span class="text-xs text-amber-400 uppercase tracking-wider">
-                Perceived
-            </span>
-        </div>
-
-        <p class="text-sm text-slate-400 mb-4">
-            Approximate view for the selected color vision profile.
-        </p>
-
-        <div class="bg-slate-950 rounded-2xl min-h-[300px]
-                    flex items-center justify-center p-4 overflow-hidden">
-
-            <canvas
-                id="simulationCanvas"
-                class="max-w-full max-h-[500px] object-contain rounded-xl">
-            </canvas>
-
-        </div>
-
-    </div>
-
-
-    <!-- ChromaAssist -->
-    <div class="bg-slate-900 border border-violet-500/40 rounded-3xl p-5">
-
-        <div class="flex items-center justify-between mb-4">
-            <h3 class="font-semibold text-lg">
-                ChromaAssist
-            </h3>
-
-            <span class="text-xs text-violet-400 uppercase tracking-wider">
-                Enhanced
-            </span>
-        </div>
-
-        <p class="text-sm text-slate-400 mb-4">
-            Enhanced to improve color distinction.
-        </p>
-
-        <div class="bg-slate-950 rounded-2xl min-h-[300px]
-                    flex items-center justify-center p-4 overflow-hidden">
-
-            <canvas
-                id="resultCanvas"
-                class="max-w-full max-h-[500px] object-contain rounded-xl">
-            </canvas>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-            <!-- Buttons -->
-            <div class="flex flex-wrap justify-center gap-4 mt-8">
-
-                <button
-                    id="downloadBtn"
-                    class="bg-violet-600 hover:bg-violet-500
-                           px-6 py-3 rounded-xl
-                           font-semibold transition">
-                    ⬇️ Download Result
-                </button>
-
-                <button
-                    id="resetBtn"
-                    class="bg-slate-800 hover:bg-slate-700
-                           px-6 py-3 rounded-xl
-                           font-semibold transition">
-                    ↻ Reset
-                </button>
-
-            </div>
-
-        </section>
-
+      </section>
+      
+      
     </main>
 
-<script type="module" src="/src/script.js"></script>
-</body>
+    <!-- Footer -->
+    <footer class="border-t border-purple/10 bg-white/50 px-6 md:px-12 py-7">
+      <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-gray-500">
+        <p class="font-display font-bold text-gray-700">ColourVision <span class="text-purple">✦</span></p>
+        <p>Designed with accessibility in mind.</p>
+        <a href="#home" class="hover:text-purple transition">Back to top ↑</a>
+      </div>
+    </footer>
 
+  </div>
+</body>
 </html>
